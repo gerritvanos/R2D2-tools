@@ -1,6 +1,5 @@
 import git
 import subprocess
-import sys
 import os
 
 modules = ["moving_platform", "location_detector", "end_effectors", "gas_detection", "vein_detection", "sound", "rgb_camera",
@@ -18,8 +17,11 @@ base_url = "https://github.com/R2D2-2019/"
 
 out_file = None
 
-date_specified = True
-date = None
+since_date_specified = True
+since_date = None
+
+until_date_specified = True
+since_date = None
 
 author_name = ''
 author_command_string = ''
@@ -57,7 +59,7 @@ def add_wiki_url_to_hash(repo,commit_list):
             commit_hash = commit_list[commit][0]
             commit_list[commit][0] = str(base_url + "R2D2-2019/wiki/" + page_name + "/_compare/" + str(commit_hash)  + '...' + str(prev_commit_hash))
             commit_list[commit].append(str(base_url + "R2D2-2019/wiki/" + page_name + "/" + str(commit_hash)))
-            
+
     return commit_list
 
 def print_2d_list(lst):
@@ -93,8 +95,12 @@ def clone_repo(repo_url,repo_name):
     return git.Git(run_path + "\\" + repo_name)
 
 def get_commits(repo):
-    if date_specified:
-        return repo.log('--no-merges',author_command_string, '--date=iso', '--pretty=%H,%ad,%s', '--all' , '--since='  + date)
+    if (since_date_specified and until_date_specified):
+        return repo.log('--no-merges', author_command_string, '--date=iso', '--pretty=%H,%ad,%s', '--all', '--since=' + since_date, '--until=' + until_date )
+    elif (until_date_specified):
+        return repo.log('--no-merges', author_command_string, '--date=iso', '--pretty=%H,%ad,%s', '--all', '--until=' + until_date)
+    elif (since_date_specified):
+        return repo.log('--no-merges', author_command_string, '--date=iso', '--pretty=%H,%ad,%s', '--all', '--since=' + since_date)
     return repo.log('--no-merges',author_command_string, '--date=iso', '--pretty=%H,%ad,%s', '--all')
 
 def delete_repo(repo,repo_name):
@@ -107,7 +113,7 @@ def get_repo_info(repo_url,repo_name):
     complete_list = add_url_to_hash(create_list_from_commits(get_commits(repo)),repo_url)
     print(repo_name + "\t total commits: " , len(complete_list))
     print_2d_list(complete_list)
-    out_file.write(repo_name, ", total commits: ", len(complete_list) + '\n')
+    out_file.write(repo_name + ", total commits: " + str(len(complete_list) )+ "\n")
     write_header_to_csv()
     write_list_to_csv(complete_list)
     delete_repo(repo,repo_name)
@@ -157,21 +163,30 @@ def get_others():
 def UI():
     global author_name
     global author_command_string
-    global date_specified
-    global date
+    global since_date_specified
+    global since_date
+    global until_date
+    global until_date_specified
     global out_file
     author_name = input("give a author name please: ")
     author_command_string = "--author=" + author_name
 
     file_name = input("please specify a file name(without extention): ")
     choice = input("get modules,wiki,others,libraries or all or type [one] to get only one repo: ")
-    date = input("specify the date[MM-DD-YYYY] from wich you want to get commits or type [all]: ")
+    since_date = input("specify the date[MM-DD-YYYY] from wich you want to get commits or type [all]: ")
+    until_date =  input("specify the date[MM-DD-YYYY] until you want to get commits or type [all]: ")
 
     out_file = open(file_name+".csv", "w")
     out_file.write("sep=; \n")
-    if (date == "all") :
-        date_specified = False
-    elif (len(date) != 10) :
+    if (since_date == "all") :
+        since_date_specified = False
+    elif (len(since_date) != 10) :
+        print("invalid date try again ")
+        UI()
+
+    if (until_date == "all"):
+        until_date_specified = False
+    elif (len(until_date) != 10):
         print("invalid date try again ")
         UI()
 
