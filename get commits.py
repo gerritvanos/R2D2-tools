@@ -6,7 +6,7 @@ import urllib.parse
 modules = ["moving_platform", "location_detector", "end_effectors", "gas_detection", "vein_detection", "sound", "rgb_camera",
            "swarm_controller", "power", "manual_control", "display", "voice_interaction", "robot_arm", "distance_sensor",
            "hazard_detection", "microphone", "navigation", "mapping", "swarm_simulation", "communication" , "fire_extinguisher",
-           "health_monitor", "load_sensor", "swarm_managment", "swarm_analytics"]
+           "health_monitor", "load_sensor", "swarm_managment", "swarm_analytics", "thermal_camera"]
 
 libraries = ["PWM_library", "USART_library", "internal_communication", "datastructures", "trng_library", "I2C_library"]
 
@@ -74,8 +74,11 @@ def print_2d_list(lst):
 
 def write_list_to_csv(commit_list):
     global out_file
-    for commit in commit_list:
-        for item in commit:
+    for commit in range(len(commit_list)):
+        if (len(commit_list[commit]) <=1):
+            out_file.write("no commits in this repo by "+ author_name+ " \n")
+            continue
+        for item in commit_list[commit]:
             out_file.write(item + ";")
         out_file.write("\n")
     out_file.write("\n")
