@@ -10,6 +10,7 @@ At this point the "get commits.py" script will only work on windows due to some 
 # Dependencies:
 - atleaste python 3.6 or higher
 - gitpython library 
+- aiourllib
 
 # How to use it:
 - install gitpython if you don't have it already.

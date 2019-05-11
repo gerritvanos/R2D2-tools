@@ -1,6 +1,7 @@
 import git
 import subprocess
 import os
+import urllib.parse
 
 modules = ["moving_platform", "location_detector", "end_effectors", "gas_detection", "vein_detection", "sound", "rgb_camera",
            "swarm_controller", "power", "manual_control", "display", "voice_interaction", "robot_arm", "distance_sensor",
@@ -46,6 +47,7 @@ def add_wiki_url_to_hash(repo,commit_list):
 
             if (":" in file_name):
                 file_name = file_name.replace(":","\:")
+            page_name = urllib.parse.quote(page_name)
 
             if (len(file_name) is not 0):
                 try:
