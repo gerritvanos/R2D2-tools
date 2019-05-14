@@ -6,11 +6,12 @@ import urllib.parse
 modules = ["moving_platform", "location_detector", "end_effectors", "gas_detection", "vein_detection", "sound", "rgb_camera",
            "swarm_controller", "power", "manual_control", "display", "voice_interaction", "robot_arm", "distance_sensor",
            "hazard_detection", "microphone", "navigation", "mapping", "swarm_simulation", "communication" , "fire_extinguisher",
-           "health_monitor", "load_sensor", "swarm_managment", "swarm_analytics", "thermal_camera"]
+           "health_monitor", "load_sensor", "swarm_managment", "swarm_analytics", "thermal_camera", "flame_sensor",
+           "gyroscope", "temperature_sensor"]
 
 libraries = ["PWM_library", "USART_library", "internal_communication", "datastructures", "trng_library", "I2C_library"]
 
-others = ["PWM_library","WiringPi", "libusb", "Catch2", "rtos", "hwlib", "r2d2-python-build", "R2D2-build"]
+others = ["WiringPi", "libusb", "Catch2", "rtos", "hwlib", "r2d2-python-build", "R2D2-build", "R2D2-gists"]
 
 run_path = os.path.dirname(os.path.realpath(__file__))
 
