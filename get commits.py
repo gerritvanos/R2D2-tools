@@ -49,19 +49,22 @@ def add_wiki_url_to_hash(repo,commit_list):
             if (":" in file_name):
                 file_name = file_name.replace(":","\:")
             page_name = urllib.parse.quote(page_name)
-
+            commit_hash = commit_list[commit][0]
             if (len(file_name) is not 0):
                 try:
                     commits_for_file = create_list_from_commits(repo.log('--no-merges', '--date=iso', '--pretty=%H,%ad,%s', '--follow' , file_name))
                 except:
                     commits_for_file = []
                 for i in range(len(commits_for_file)):
-                    if commits_for_file[i][0] == commit_list[commit][0]: #found current commit
-                        prev_commit_hash = commits_for_file[i-1][0] #get hash from prev commit
+                    if commits_for_file[i][0] == commit_hash: #found current commit
+                        if (i==len(commits_for_file)-1):
+                            break;
+                        prev_commit_hash = commits_for_file[i+1][0] #get hash from prev commit
+                        break;
 
-            commit_hash = commit_list[commit][0]
-            commit_list[commit][0] = str(base_url + "R2D2-2019/wiki/" + page_name + "/_compare/" + str(commit_hash)  + '...' + str(prev_commit_hash))
-            commit_list[commit].append(str(base_url + "R2D2-2019/wiki/" + page_name + "/" + str(commit_hash)))
+
+            commit_list[commit][0] = str("[compare link](" + base_url + "R2D2-2019/wiki/" + page_name + "/_compare/" +  str(prev_commit_hash) + '...' +  str(commit_hash)+")")
+            commit_list[commit].append(str("[commit link]("+ base_url + "R2D2-2019/wiki/" + page_name + "/" + str(commit_hash) + ")"))
 
     return commit_list
 
