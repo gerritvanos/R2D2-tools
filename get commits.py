@@ -4,10 +4,10 @@ import os
 import urllib.parse
 
 modules = ["moving_platform", "location_detector", "end_effectors", "gas_detection", "vein_detection", "sound", "rgb_camera",
-           "swarm_controller", "power", "manual_control", "display", "voice_interaction", "robot_arm", "distance_sensor",
+           "swarm_ui", "power", "manual_control", "display", "voice_interaction", "robot_arm", "distance_sensor",
            "hazard_detection", "microphone", "navigation", "mapping", "swarm_simulation", "communication" , "fire_extinguisher",
            "health_monitor", "load_sensor", "swarm_managment", "swarm_analytics", "thermal_camera", "flame_sensor",
-           "gyroscope", "temperature_sensor"]
+           "gyroscope", "temperature_sensor", "RobOs"]
 
 libraries = ["PWM_library", "USART_library", "internal_communication", "datastructures", "trng_library", "I2C_library"]
 
